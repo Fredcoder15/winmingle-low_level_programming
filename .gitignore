@@ -3,3 +3,7 @@
 Cisfun
 100-intel
 3-name
+=======
+*.out
+*.o
+
