@@ -1,0 +1,1 @@
+This teaches me how to ubderstand command-line arguments which does almost same thing as scanf() which would have been in tge program itself. i get to understand how to use argc( argument count) and argv(---verbose of strings). 
