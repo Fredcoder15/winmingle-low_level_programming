@@ -1,0 +1,5 @@
+#!/bin/bash
+#Author: Akpan-fred, Promise Friday
+#Program: Winmingle Community C Training
+#Description: Compiles and creates an assembly file from a c source file
+    gcc -Wall -Werror -Wextra -pedantic -std=gnu89 -S "$CFILE" -o "${CFILE%.c}.s" 

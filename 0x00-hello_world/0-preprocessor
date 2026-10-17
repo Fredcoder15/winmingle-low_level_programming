@@ -1,0 +1,5 @@
+#!/bin/bash 
+#Author: Akpan-fred, Promise Friday
+#Program: Winmingle Community C training
+#Description: Runs the C preprocessor on a C source file.
+    gcc -E "$CFILE" -o "${CFILE%.c}.i"
