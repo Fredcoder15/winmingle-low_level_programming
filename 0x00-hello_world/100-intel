@@ -1,0 +1,5 @@
+#!/bin/bash
+#Author: Akpan-fred, Promise Friday
+#Program: Winmingle Community C Training
+#Description: Generates intel-syntax assembly from a C source file
+    gcc -S -masm=intel main.c -o 100-intel

@@ -1,0 +1,5 @@
+#!/bin/bash
+#Author: Akpan-fred, Promise Friday
+#Program: Winmingle Community C Training
+#Description: Compiles a C source file into an executable named cisfun
+    gcc -Wall -Werror -Wextra -pedantic -std=gnu89 "$CFILE" -o cisfun
