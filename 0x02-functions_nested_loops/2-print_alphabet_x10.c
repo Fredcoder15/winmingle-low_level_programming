@@ -5,11 +5,11 @@
 *Description:
 */
 
-void  print_alphabet_x10(void)
+void print_alphabet_x10(void)
     {
     char c;
 
-    for (c = 'a'; c <= 'z'; c++)
+    for(c = 'a'; c <= 'z'; c++)
     {
     _putchar(c); 
     }
@@ -20,7 +20,7 @@ int main(void)
     {
     int r;
 
-    for(r = 0; r <= 20; r++)
+    for(r = 0; r <= 10; r++)
     {
     print_alphabet_x10();
     _putchar('\n');
