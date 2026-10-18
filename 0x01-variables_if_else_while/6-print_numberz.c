@@ -8,9 +8,9 @@
 
 int main(void)
     {
-    int x= 0;
+    int x = 0;
 
-    while(x <= 10)
+    while(x < 10)
     {
     putchar('0' + x);
     x++;
