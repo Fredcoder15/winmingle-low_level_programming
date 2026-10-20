@@ -1,0 +1,1 @@
+This is the project that helped me to understand functions and nested loops. I enjoyed the fibonacci sequences so much. The most interesting part was the fact that the marker restricted us from using the standard libraries output, so I was forced to think about doing my own things ny myself which made my understanding stronger. 
