@@ -1,18 +1,20 @@
-#include "main.h"
-/**
-*Author: Akpan-fred, Promise Friday
-*Program: Winmingle Community C Training
-*Description: Checks if input is an integer character or not
-*/
 
+#include "main.h"
+
+/**
+ * _isdigit - Checks if a character is a digit.
+ * @c: The character to check.
+ *
+ * Return: 1 if c is a digit, otherwise 0.
+ */
 int _isdigit(int c)
+{
+    if (c >= '0' && c <= '9')
     {
-	if(c >= '0' && c <= '9')
-		{
-			return(1);
-		}
-	else
-	{
-		return(0);
-	}
+        return (1);
     }
+    else
+    {
+        return (0);
+    }
+}
