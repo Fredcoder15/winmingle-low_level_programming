@@ -1,6 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
+#include "main.h"
 
 /**
  * Author: Akpan-fred, Promise Friday
@@ -9,7 +7,7 @@
  */
 
 /**
- * main - Generates a random password.
+ * main - Generates a password for the crackme.
  *
  * Return: Always 0.
  */
@@ -17,41 +15,48 @@ int main(void)
 {
     int sum;
     int target;
-    int charset_size;
-    char c;
-    char charset[] = "abcdefghijklmnopqrstuvwxyz"
-                     "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                     "0123456789"
-                     "@#$_&*";
+    int value;
 
     sum = 0;
     target = 2772;
-    charset_size = sizeof(charset) - 1;
-
-    srand(time(NULL));
 
     while (sum < target)
     {
-        c = charset[rand() % charset_size];
+        value = 97;
 
-        if (sum + c <= target)
+        while (value <= 122 && sum + value <= target)
         {
-            if (sum + c == target)
-            {
-                putchar(c);
-                sum += c;
-                break;
-            }
+            _putchar(value);
+            sum += value;
+            value = 97;
+        }
 
-            if (target - (sum + c) >= 35)
+        if (sum < target)
+        {
+            value = 65;
+
+            while (value <= 90 && sum + value <= target)
             {
-                putchar(c);
-                sum += c;
+                _putchar(value);
+                sum += value;
+                value = 65;
+            }
+        }
+
+        if (sum < target)
+        {
+            value = 48;
+
+            while (value <= 57 && sum + value <= target)
+            {
+                _putchar(value);
+                sum += value;
+                value = 48;
             }
         }
     }
 
-    putchar('\n');
+    _putchar('\n');
 
     return (0);
 }
