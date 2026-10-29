@@ -1,0 +1,19 @@
+#include "main.h"
+
+/**
+ * Author: Akpan-fred, Promise Friday
+ * Program: WinMingle Community C Training
+ * Description: Reverses the first n elements of an array.
+ */
+void reverse_array(int *a, int n)
+    {
+    int i;
+    int temp;
+
+    for (i = 0; i < n / 2; i++)
+    {
+        temp = a[i];
+        a[i] = a[n - 1 - i];
+        a[n - 1 - i] = temp;
+    }
+    }
