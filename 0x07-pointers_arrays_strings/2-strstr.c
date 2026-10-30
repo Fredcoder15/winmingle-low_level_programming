@@ -4,13 +4,14 @@
  * Description: Locates a character in a string.
  */
 #include "main.h"
+#include <stddef.h>
 
 /**
  * _strchr - locates the first occurrence of a character
  * @s: string to search
  * @c: character to locate
  *
- * Return: Pointer to the first occurrence, or NULL if not found
+ * Return: Pointer to the character, or NULL if not found
  */
 char *_strchr(char *s, char c)
     {
