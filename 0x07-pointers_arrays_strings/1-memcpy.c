@@ -1,19 +1,17 @@
-
 /**
  * Author: Akpan-fred, Promise Friday
  * Program: WinMingle Community C Training
- * Description: Copies n bytes from a source memory area to a
- *              destination memory area.
+ * Description: Copies bytes from one memory area to another.
  */
 #include "main.h"
 
 /**
- * _memcpy - copies memory from source to destination
- * @dest: pointer to the destination memory area
- * @src: pointer to the source memory area
+ * _memcpy - copies n bytes from source to destination
+ * @dest: destination memory area
+ * @src: source memory area
  * @n: number of bytes to copy
  *
- * Return: pointer to the destination memory area
+ * Return: A pointer to the destination memory area
  */
 char *_memcpy(char *dest, char *src, unsigned int n)
     {
