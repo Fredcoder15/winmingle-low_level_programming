@@ -14,12 +14,12 @@
  * Return: Nothing
  */
 static void print_unsigned(unsigned int number)
-    {
+{
     if (number >= 10)
         print_unsigned(number / 10);
 
     _putchar((number % 10) + '0');
-    }
+}
 
 /**
  * print_number - prints an integer, including negative numbers
@@ -28,7 +28,7 @@ static void print_unsigned(unsigned int number)
  * Return: Nothing
  */
 static void print_number(int n)
-    {
+{
     unsigned int number;
 
     if (n < 0)
@@ -42,7 +42,7 @@ static void print_number(int n)
     }
 
     print_unsigned(number);
-    }
+}
 
 /**
  * print_diagsums - prints the sums of the two diagonals
@@ -52,7 +52,7 @@ static void print_number(int n)
  * Return: Nothing
  */
 void print_diagsums(int *a, int size)
-    {
+{
     int i;
     int sum1;
     int sum2;
@@ -71,4 +71,6 @@ void print_diagsums(int *a, int size)
     _putchar(' ');
     print_number(sum2);
     _putchar('\n');
-    }
+
+}
+

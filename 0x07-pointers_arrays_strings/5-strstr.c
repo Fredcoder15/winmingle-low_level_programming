@@ -15,7 +15,7 @@
  * Return: pointer to the beginning of the substring, or NULL if not found
  */
 char *_strstr(char *haystack, char *needle)
-    {
+{
     unsigned int i;
     unsigned int j;
 
@@ -44,4 +44,6 @@ char *_strstr(char *haystack, char *needle)
     }
 
     return (NULL);
-    }
+
+}
+

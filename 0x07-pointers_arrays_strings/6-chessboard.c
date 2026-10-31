@@ -13,7 +13,7 @@
  * Return: Nothing
  */
 void print_chessboard(char (*a)[8])
-    {
+{
     int i;
     int j;
 
@@ -25,4 +25,6 @@ void print_chessboard(char (*a)[8])
         }
         _putchar('\n');
     }
-    }
+
+}
+
