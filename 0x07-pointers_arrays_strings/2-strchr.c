@@ -15,7 +15,7 @@
  * Return: pointer to the first matching character, or NULL if not found
  */
 char *_strchr(char *s, char c)
-    {
+{
     unsigned int i;
 
     i = 0;
@@ -28,9 +28,11 @@ char *_strchr(char *s, char c)
         i++;
     }
 
-    if(s[i] == '\0')
+    if (s[i] == '\0')
     {
     return(NULL);
     }
+
     return (NULL);
-    }
+}
+
