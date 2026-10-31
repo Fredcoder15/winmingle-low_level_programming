@@ -14,7 +14,7 @@
  * Return: Pointer to the first matching character, or NULL if none is found
  */
 char *_strpbrk(char *s, char *accept)
-    {
+{
     unsigned int i;
     unsigned int j;
 
@@ -30,4 +30,6 @@ char *_strpbrk(char *s, char *accept)
     }
 
     return (NULL);
-    }
+
+}
+
