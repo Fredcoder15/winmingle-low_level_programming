@@ -19,7 +19,7 @@ void _puts_recursion(char *s)
     _putchar('\n');
     return;
     }
-	/* Prints the very first character	*/
+    /* Prints the very first character	*/
     
     _putchar(*s);
 

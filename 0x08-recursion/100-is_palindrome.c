@@ -14,12 +14,11 @@
  */
 int palindrome_length(char *s)
 {
-    if (*s == '\0')
+    if(*s == '\0')
     {
-        return (0);
+    return(0);
     }
-
-    return (1 + palindrome_length(s + 1));
+    return(1 + palindrome_length(s + 1));
 }
 
 /**
@@ -32,17 +31,16 @@ int palindrome_length(char *s)
  */
 int palindrome_helper(char *s, int start, int end)
 {
-    if (start >= end)
+    if(start >= end)
     {
-        return (1);
+    return(1);
     }
 
-    if (s[start] != s[end])
+    if(s[start] != s[end])
     {
-        return (0);
+    return(0);
     }
-
-    return (palindrome_helper(s, start + 1, end - 1));
+    return(palindrome_helper(s, start + 1, end - 1));
 }
 
 /**

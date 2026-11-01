@@ -18,7 +18,7 @@ void _print_rev_recursion(char *s)
     {
     return;
     }
-          /* Moves to the end of the string and prints backwards */
+    /* Moves to the end of the string and prints backwards */
 
     _print_rev_recursion(s + 1);
     _putchar(*s);
