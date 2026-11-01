@@ -1,4 +1,4 @@
-# 0x09. C - Static Libraries
+# 0x09. C - Static Libraries in 2026
 
 ## Description
 
