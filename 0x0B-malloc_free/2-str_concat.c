@@ -15,11 +15,11 @@ char *str_concat(char *s1, char *s2)
 
     if(s1 == NULL)
     {
-    return("");
+    return(NULL);
     }
     if(s2 == NULL)
     {
-    return("");
+    return(NULL);
     }
 
     /* Calculates the length of string 1*/
@@ -35,6 +35,10 @@ char *str_concat(char *s1, char *s2)
 
     /* mallocs for both length including the null terminator*/
     new_string = malloc((len1 + len2 + 1) * sizeof(char));
+    if(new_string == NULL)
+    {
+    return(NULL);
+    }
     /*returning back to zero because they were no longer zeroes.Very important. */
     /* the catenation starts here*/
     len1 = 0;
