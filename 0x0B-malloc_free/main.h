@@ -1,3 +1,5 @@
+#ifndef MAIN_H
+#define MAIN_H
 char *create_array(unsigned int size, char c);
 void print_hex(char *buf, unsigned int sz);
 char *_strdup(char *str);
@@ -9,5 +11,5 @@ char *argstostr(int ac, char **av);
 void print_words(char **words);
 int count_words(char *str);
 char **strtow(char *str);
-
+#endif
 
