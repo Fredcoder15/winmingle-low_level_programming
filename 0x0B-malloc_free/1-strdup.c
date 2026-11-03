@@ -1,53 +1,44 @@
+
 /*
-*Author: Akpan-fred, Promise Friday
-*Program: Winmingle community C Training
-*Description: Returns a heap-allocated copy of a string
-*/
+ * Author: Akpan-fred, Promise Friday.
+ * Program: winmingle Community C Training.
+ * Description: Creates a duplicate of a string in newly
+ *              allocated memory.
+ */
 
 #include "main.h"
 #include <stdlib.h>
+
+/**
+ * _strdup - Duplicates a string
+ * @str: The string to duplicate
+ *
+ * Return: Pointer to the duplicated string, or NULL on failure
+ */
 char *_strdup(char *str)
 {
     int i = 0;
     int len = 0;
     char *copy;
-    if(str  == NULL)
+    if (str == NULL)
     {
     return (NULL);
     }
-    /* We need to know the length of the string first*/
-    while(str[len] != '\0'){
+    while (str[len] != '\0')
+    {
     len++;
     }
-  
-    /*+1 accounting for the null terminator*/
     copy = malloc((len + 1) * sizeof(char));
-    if(copy == NULL)
+    if (copy == NULL)
     {
-    return(NULL);
-    }
-    /*copy the string literal ROM memory into the HEAP modifiable memory.*/
-    while(i < len)
-    {
-      copy[i] = str[i];
-      i++;
+    return (NULL);
     }
 
-    /* Alternatively; Pointer version
-    * *start = copy(this stores the original address of the new heap memory
-    because during pointer movement, copy will be pointing to null terminator
-    and we must return the beginning chsracter address. 
-    * while(*str)
+    while (i < len)
     {
-    * *copy = *str;
-    * str++;
-    * copy++;
-    *
+    copy[i] = str[i];
+    i++;
     }
-    *copy = '\0';
-    return(start);
-    */
-
-   copy[len]  = '\0';
-   return (copy);
+    copy[len] = '\0';
+    return (copy);
 }
