@@ -22,6 +22,10 @@ char *_strdup(char *str)
   
     /*+1 accounting for the null terminator*/
     copy = malloc((len + 1) * sizeof(char));
+    if(copy == NULL)
+    {
+    return(NULL);
+    }
     /*copy the string literal ROM memory into the HEAP modifiable memory.*/
     while(i < len)
     {
