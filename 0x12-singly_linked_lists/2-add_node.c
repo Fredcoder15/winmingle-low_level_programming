@@ -1,49 +1,69 @@
-#include "lists.h"
-#include <stdio.h>
-#include <stdlib.h>
 
+#include <stdlib.h>
+#include "lists.h"
+
+/**
+ * add_node - adds a new node at the beginning of a list
+ * @head: pointer to the head of the list
+ * @str: string to duplicate
+ *
+ * Return: address of the new node, or NULL on failure
+ */
 list_t *add_node(list_t **head, const char *str)
 {
     list_t *new;
     unsigned int len = 0;
 
-    /*Check for safety*/
-    if(head == NULL)
+    /* Check for safety */
+    if (head == NULL)
     {
-     return(NULL);
+        return (NULL);
     }
-    /*Calculates length of strings*/
-    while(str[len] != '\0')
-    {
-     len++;
-    }
-    /*Memory Allocation*/
+
+    /* Allocate memory for the node */
     new = malloc(sizeof(list_t));
-    if(new == NULL)
+    if (new == NULL)
     {
-     return(NULL);
+        return (NULL);
     }
-    
-    /*Plus 1 for the null terminator of the string */
-    new->str = malloc(len + 1);
-    if(new->str == NULL)
+
+    /* Handle a NULL string */
+    if (str == NULL)
     {
-     free(new);
-     return(NULL);
+        new->str = NULL;
+        new->len = 0;
     }
-    
-    new->len = len;
-    /*Copy Characters */
-    len = 0;
-    while(str[len] != '\0')
+    else
     {
-     new->str[len] = str[len];
-     len++;
+        /* Calculate string length */
+        while (str[len] != '\0')
+        {
+            len++;
+        }
+
+        /* Allocate memory for the string */
+        new->str = malloc(len + 1);
+        if (new->str == NULL)
+        {
+            free(new);
+            return (NULL);
+        }
+
+        /* Copy characters */
+        len = 0;
+        while (str[len] != '\0')
+        {
+            new->str[len] = str[len];
+            len++;
+        }
+        new->str[len] = '\0';
+
+        new->len = len;
     }
-    new->str[len] = '\0';
-    
+
+    /* Insert at the beginning */
     new->next = *head;
     *head = new;
-    
-    return(new);
+
+    return (new);
 }
