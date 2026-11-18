@@ -15,7 +15,7 @@ list_t *add_node_end(list_t **head, const char *str)
     list_t *current;
     unsigned int len = 0;
     /*Safety Check*/
-    if(head == NULL || str == NULL)
+    if(head == NULL)
     {
      return(NULL);
     }
