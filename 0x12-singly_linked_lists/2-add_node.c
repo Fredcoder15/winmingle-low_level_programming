@@ -8,7 +8,7 @@ list_t *add_node(list_t **head, const char *str)
     unsigned int len = 0;
 
     /*Check for safety*/
-    if(head == NULL || str == NULL)
+    if(head == NULL)
     {
      return(NULL);
     }
