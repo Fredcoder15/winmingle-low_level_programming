@@ -10,61 +10,76 @@
  * Return: address of the new node, or NULL on failure
  */
 list_t *add_node_end(list_t **head, const char *str)
-{   
+{
     list_t *new;
     list_t *current;
     unsigned int len = 0;
-    /*Safety Check*/
-    if(head == NULL)
+
+    /* Check for safety */
+    if (head == NULL)
     {
-     return(NULL);
-    }
-     /*Calculates length of string*/
-    while(str[len] != '\0')
-    {
-     len++;
+        return (NULL);
     }
 
-    /*Allocates memory for node and its string member */
+    /* Allocate memory for the node */
     new = malloc(sizeof(list_t));
-    if(new == NULL)
+    if (new == NULL)
     {
-     return(NULL);
-    }
-    new->str = malloc((len + 1) * sizeof(char));    if(new->str == NULL)
-    {
-     free(new);
-     return(NULL);
+        return (NULL);
     }
 
-    /*Copy String */
-    len = 0;
-    while(str[len] != '\0')
+    /* Handle a NULL string */
+    if (str == NULL)
     {
-     new->str[len] = str[len];
-     len++;
+        new->str = NULL;
+        new->len = 0;
     }
-    new->str[len] = '\0';
+    else
+    {
+        /* Calculate string length */
+        while (str[len] != '\0')
+        {
+            len++;
+        }
 
-    new->len = len;
+        /* Allocate memory for the string */
+        new->str = malloc(len + 1);
+        if (new->str == NULL)
+        {
+            free(new);
+            return (NULL);
+        }
+
+        /* Copy the string */
+        len = 0;
+        while (str[len] != '\0')
+        {
+            new->str[len] = str[len];
+            len++;
+        }
+        new->str[len] = '\0';
+
+        new->len = len;
+    }
+
     new->next = NULL;
 
-    /* Check empty list to avoid seg fault*/
-    if(*head == NULL)
+    /* Handle an empty list */
+    if (*head == NULL)
     {
-      *head = new;
-      return(new);
-    }
-   
-    /* Find the last Node*/
-    current = *head;
-    while(current->next != NULL)
-    {
-     current = current->next;
+        *head = new;
+        return (new);
     }
 
-    /*Attach Node*/
+    /* Find the last node */
+    current = *head;
+    while (current->next != NULL)
+    {
+        current = current->next;
+    }
+
+    /* Attach the new node */
     current->next = new;
 
-    return(new);
+    return (new);
 }
