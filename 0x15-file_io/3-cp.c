@@ -20,7 +20,7 @@ void write_error(char *str)
  * write_number - writes a positive integer to standard error
  * @number: number to display
  */
-void write_number(unsigned int number)
+static void write_number(unsigned int number)
 {
     char digit;
 
