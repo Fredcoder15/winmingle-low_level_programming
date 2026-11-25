@@ -1,76 +1,46 @@
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <elf.h>
 
 /**
- * print_osabi - prints the operating system ABI
- * @osabi: OS/ABI identification number
+ * write_string - writes a string to standard output
+ * @str: string to display
  */
-void print_osabi(unsigned char osabi)
+void write_string(char *str)
 {
-    switch (osabi)
-    {
-        case ELFOSABI_NONE:
-            printf("UNIX - System V");
-            break;
-        case ELFOSABI_HPUX:
-            printf("UNIX - HP-UX");
-            break;
-        case ELFOSABI_NETBSD:
-            printf("UNIX - NetBSD");
-            break;
-        case ELFOSABI_LINUX:
-            printf("UNIX - GNU");
-            break;
-        case ELFOSABI_SOLARIS:
-            printf("UNIX - Solaris");
-            break;
-        case ELFOSABI_AIX:
-            printf("UNIX - AIX");
-            break;
-        case ELFOSABI_IRIX:
-            printf("UNIX - IRIX");
-            break;
-        case ELFOSABI_FREEBSD:
-            printf("UNIX - FreeBSD");
-            break;
-        case ELFOSABI_OPENBSD:
-            printf("UNIX - OpenBSD");
-            break;
-        default:
-            printf("<unknown: %x>", osabi);
-    }
+    int length = 0;
+
+    while (str[length] != '\0')
+        length++;
+
+    write(STDOUT_FILENO, str, length);
 }
 
 /**
- * print_type - prints the ELF file type
- * @type: ELF file type number
+ * write_number - writes a number in decimal or hexadecimal
+ * @number: number to display
+ * @base: number base (10 or 16)
+ * @width: minimum number of digits
  */
-void print_type(unsigned int type)
+void write_number(unsigned long long number, unsigned int base, int width)
 {
-    switch (type)
-    {
-        case ET_NONE:
-            printf("NONE (None)");
-            break;
-        case ET_REL:
-            printf("REL (Relocatable file)");
-            break;
-        case ET_EXEC:
-            printf("EXEC (Executable file)");
-            break;
-        case ET_DYN:
-            printf("DYN (Shared object file)");
-            break;
-        case ET_CORE:
-            printf("CORE (Core file)");
-            break;
-        default:
-            printf("<unknown>: %x", type);
-    }
+    char digits[] = "0123456789abcdef";
+    char buffer[32];
+    int count = 0;
+    int i;
+
+    do {
+        buffer[count++] = digits[number % base];
+        number /= base;
+    } while (number > 0);
+
+    while (count < width)
+        buffer[count++] = '0';
+
+    for (i = count - 1; i >= 0; i--)
+        write(STDOUT_FILENO, &buffer[i], 1);
 }
 
 /**
@@ -89,72 +59,55 @@ int main(int argc, char *argv[])
     Elf32_Ehdr header32;
     Elf64_Ehdr header64;
     unsigned int type;
-    unsigned long entry;
+    unsigned long long entry;
 
     if (argc != 2)
     {
-        dprintf(STDERR_FILENO, "Usage: elf_header elf_filename\n");
+        write(2, "Usage: elf_header elf_filename\n", 31);
         exit(98);
     }
 
     fd = open(argv[1], O_RDONLY);
     if (fd == -1)
     {
-        dprintf(STDERR_FILENO,
-            "Error: Can't read file %s\n", argv[1]);
+        write_string("Error: Can't read file ");
+        {
+            int length = 0;
+
+            while (argv[1][length] != '\0')
+                length++;
+            write(2, argv[1], length);
+        }
+        write(2, "\n", 1);
         exit(98);
     }
 
     bytes_read = read(fd, ident, EI_NIDENT);
-    if (bytes_read != EI_NIDENT)
-    {
-        dprintf(STDERR_FILENO,
-            "Error: Not a valid ELF file - %s\n", argv[1]);
-        close(fd);
-        exit(98);
-    }
-
-    if (ident[EI_MAG0] != ELFMAG0 ||
+    if (bytes_read != EI_NIDENT ||
+        ident[EI_MAG0] != ELFMAG0 ||
         ident[EI_MAG1] != ELFMAG1 ||
         ident[EI_MAG2] != ELFMAG2 ||
         ident[EI_MAG3] != ELFMAG3)
     {
-        dprintf(STDERR_FILENO,
-            "Error: Not a valid ELF file - %s\n", argv[1]);
+        write_string("Error: Not a valid ELF file\n");
         close(fd);
         exit(98);
     }
 
-    if (ident[EI_CLASS] != ELFCLASS32 &&
-        ident[EI_CLASS] != ELFCLASS64)
+    if ((ident[EI_CLASS] != ELFCLASS32 &&
+         ident[EI_CLASS] != ELFCLASS64) ||
+        (ident[EI_DATA] != ELFDATA2LSB &&
+         ident[EI_DATA] != ELFDATA2MSB) ||
+        ident[EI_VERSION] != EV_CURRENT)
     {
-        dprintf(STDERR_FILENO,
-            "Error: Invalid ELF class - %s\n", argv[1]);
-        close(fd);
-        exit(98);
-    }
-
-    if (ident[EI_DATA] != ELFDATA2LSB &&
-        ident[EI_DATA] != ELFDATA2MSB)
-    {
-        dprintf(STDERR_FILENO,
-            "Error: Invalid ELF data encoding - %s\n", argv[1]);
-        close(fd);
-        exit(98);
-    }
-
-    if (ident[EI_VERSION] != EV_CURRENT)
-    {
-        dprintf(STDERR_FILENO,
-            "Error: Invalid ELF version - %s\n", argv[1]);
+        write_string("Error: Invalid ELF header\n");
         close(fd);
         exit(98);
     }
 
     if (lseek(fd, 0, SEEK_SET) == -1)
     {
-        dprintf(STDERR_FILENO,
-            "Error: Can't seek file %s\n", argv[1]);
+        write_string("Error: Can't seek file\n");
         close(fd);
         exit(98);
     }
@@ -162,10 +115,9 @@ int main(int argc, char *argv[])
     if (ident[EI_CLASS] == ELFCLASS32)
     {
         bytes_read = read(fd, &header32, sizeof(header32));
-        if (bytes_read != (ssize_t)sizeof(header32))
+        if (bytes_read != sizeof(header32))
         {
-            dprintf(STDERR_FILENO,
-                "Error: Can't read ELF header from %s\n", argv[1]);
+            write_string("Error: Can't read ELF header\n");
             close(fd);
             exit(98);
         }
@@ -176,10 +128,9 @@ int main(int argc, char *argv[])
     else
     {
         bytes_read = read(fd, &header64, sizeof(header64));
-        if (bytes_read != (ssize_t)sizeof(header64))
+        if (bytes_read != sizeof(header64))
         {
-            dprintf(STDERR_FILENO,
-                "Error: Can't read ELF header from %s\n", argv[1]);
+            write_string("Error: Can't read ELF header\n");
             close(fd);
             exit(98);
         }
@@ -188,46 +139,103 @@ int main(int argc, char *argv[])
         entry = header64.e_entry;
     }
 
-    printf("ELF Header:\n");
+    write_string("ELF Header:\n");
+    write_string("  Magic:   ");
 
-    printf("  Magic:   ");
     for (i = 0; i < EI_NIDENT; i++)
-        printf("%02x ", ident[i]);
-    printf("\n");
+    {
+        write_number(ident[i], 16, 2);
+        write_string(" ");
+    }
+    write_string("\n");
 
-    printf("  Class:                             ");
+    write_string("  Class:                             ");
     if (ident[EI_CLASS] == ELFCLASS32)
-        printf("ELF32\n");
+        write_string("ELF32\n");
     else
-        printf("ELF64\n");
+        write_string("ELF64\n");
 
-    printf("  Data:                              ");
+    write_string("  Data:                              ");
     if (ident[EI_DATA] == ELFDATA2LSB)
-        printf("2's complement, little endian\n");
+        write_string("2's complement, little endian\n");
     else
-        printf("2's complement, big endian\n");
+        write_string("2's complement, big endian\n");
 
-    printf("  Version:                           %d", ident[EI_VERSION]);
-    if (ident[EI_VERSION] == EV_CURRENT)
-        printf(" (current)");
-    printf("\n");
+    write_string("  Version:                           ");
+    write_number(ident[EI_VERSION], 10, 0);
+    write_string(" (current)\n");
 
-    printf("  OS/ABI:                            ");
-    print_osabi(ident[EI_OSABI]);
-    printf("\n");
+    write_string("  OS/ABI:                            ");
 
-    printf("  ABI Version:                       %d\n", ident[EI_ABIVERSION]);
+    switch (ident[EI_OSABI])
+    {
+        case ELFOSABI_NONE:
+            write_string("UNIX - System V");
+            break;
+        case ELFOSABI_HPUX:
+            write_string("UNIX - HP-UX");
+            break;
+        case ELFOSABI_NETBSD:
+            write_string("UNIX - NetBSD");
+            break;
+        case ELFOSABI_LINUX:
+            write_string("UNIX - GNU");
+            break;
+        case ELFOSABI_SOLARIS:
+            write_string("UNIX - Solaris");
+            break;
+        case ELFOSABI_AIX:
+            write_string("UNIX - AIX");
+            break;
+        case ELFOSABI_IRIX:
+            write_string("UNIX - IRIX");
+            break;
+        case ELFOSABI_FREEBSD:
+            write_string("UNIX - FreeBSD");
+            break;
+        case ELFOSABI_OPENBSD:
+            write_string("UNIX - OpenBSD");
+            break;
+        default:
+            write_string("<unknown>");
+    }
+    write_string("\n");
 
-    printf("  Type:                              ");
-    print_type(type);
-    printf("\n");
+    write_string("  ABI Version:                       ");
+    write_number(ident[EI_ABIVERSION], 10, 0);
+    write_string("\n");
 
-    printf("  Entry point address:               0x%lx\n", entry);
+    write_string("  Type:                              ");
+
+    switch (type)
+    {
+        case ET_NONE:
+            write_string("NONE (None)");
+            break;
+        case ET_REL:
+            write_string("REL (Relocatable file)");
+            break;
+        case ET_EXEC:
+            write_string("EXEC (Executable file)");
+            break;
+        case ET_DYN:
+            write_string("DYN (Shared object file)");
+            break;
+        case ET_CORE:
+            write_string("CORE (Core file)");
+            break;
+        default:
+            write_string("<unknown>");
+    }
+    write_string("\n");
+
+    write_string("  Entry point address:               0x");
+    write_number(entry, 16, 0);
+    write_string("\n");
 
     if (close(fd) == -1)
     {
-        dprintf(STDERR_FILENO,
-            "Error: Can't close file %s\n", argv[1]);
+        write_string("Error: Can't close file\n");
         exit(98);
     }
 
